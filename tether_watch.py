@@ -28,8 +28,10 @@ def main(n, verbose):
         "address": address
     }
     latest_txid = 0
+    persistent_file = open("latest_transaction.tmp", "w")
     while True:
         try:
+            time.sleep(n)
             response = requests.get(url, params=params).json()
             latest_transaction = response["transactions"][0]
             params = {
@@ -60,7 +62,6 @@ def main(n, verbose):
                 bot.send_message(chat_id=chat_id, text=telegram_message)
         except json.decoder.JSONDecodeError as e:
             logger.error(e)
-        time.sleep(n)
 
 
 if __name__ == "__main__":
